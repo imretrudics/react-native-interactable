@@ -1,5 +1,5 @@
 {
-  "name": "react-native-interactable",
+  "name": "@imretrudics/react-native-interactable",
   "version": "2.0.1",
   "description": "High performance interactable views in React Native",
   "license": "MIT",
