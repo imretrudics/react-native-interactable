@@ -38,6 +38,7 @@ public class InteractableView extends ViewGroup implements PhysicsAnimator.Physi
     private PointF dragLastLocation;
     private boolean initialPositionSet;
 
+    private boolean androidDragImmediately;
     private boolean verticalOnly;
     private boolean horizontalOnly;
     private boolean dragEnabled;
@@ -194,26 +195,30 @@ public class InteractableView extends ViewGroup implements PhysicsAnimator.Physi
                 return false;
             }*/
 
-            float delX = ev.getX() - dragStartLocation.x;
-            float delY = ev.getY() - dragStartLocation.y;
-            boolean isHSwipe = Math.abs(delX) > mTouchSlop;
-            boolean isVSwipe = Math.abs(delY) > mTouchSlop;
+            if (androidDragImmediately) {
+                startDrag(ev);
+                return true;
+            } else {
+                float delX = ev.getX() - dragStartLocation.x;
+                float delY = ev.getY() - dragStartLocation.y;
+                boolean isHSwipe = Math.abs(delX) > mTouchSlop;
+                boolean isVSwipe = Math.abs(delY) > mTouchSlop;
 
-            this.isSwiping = this.isSwiping || isHSwipe || isVSwipe;
+                this.isSwiping = this.isSwiping || isHSwipe || isVSwipe;
 
-           if (this.isSwiping && !isChildIsScrollContainer && dragEnabled &&
-                    (horizontalOnly && isHSwipe ||
-                    verticalOnly && isVSwipe ||
-                    !horizontalOnly && !verticalOnly)) {
+                if (this.isSwiping && !isChildIsScrollContainer && dragEnabled &&
+                            (horizontalOnly && isHSwipe ||
+                            verticalOnly && isVSwipe ||
+                            !horizontalOnly && !verticalOnly)) {
 
-               // we are giving opportunity intercept the action to the ChildrenViews
-               if(!skippedOneInterception){
-                   skippedOneInterception=true;
-               }
-               else{
-                   startDrag(ev);
-                   return true;
-               }
+                    // we are giving opportunity intercept the action to the ChildrenViews
+                    if (!skippedOneInterception) {
+                        skippedOneInterception = true;
+                    } else {
+                        startDrag(ev);
+                        return true;
+                    }
+                }
             }
         }
         return super.onInterceptTouchEvent(ev);
@@ -458,6 +463,10 @@ public class InteractableView extends ViewGroup implements PhysicsAnimator.Physi
 
     public void setVerticalOnly(boolean verticalOnly) {
         this.verticalOnly = verticalOnly;
+    }
+
+    public void setAndroidDragImmediately(boolean androidDragImmediately) {
+        this.androidDragImmediately = androidDragImmediately;
     }
 
     public void setHorizontalOnly(boolean horizontalOnly) {

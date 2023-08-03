@@ -77,6 +77,11 @@ public class InteractableViewManager extends ViewGroupManager<InteractableView> 
         }
     }
 
+    @ReactProp(name = "androidDragImmediately")
+    public void setAndroidDragImmediately(InteractableView view, @Nullable boolean androidDragImmediately) {
+        view.setAndroidDragImmediately(androidDragImmediately);
+    }
+
     @ReactProp(name = "verticalOnly")
     public void setVerticalOnly(InteractableView view, @Nullable boolean verticalOnly) {
         view.setVerticalOnly(verticalOnly);
