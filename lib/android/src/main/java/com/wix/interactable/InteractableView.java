@@ -190,17 +190,18 @@ public class InteractableView extends ViewGroup implements PhysicsAnimator.Physi
         }
 
         if (actionMasked == MotionEvent.ACTION_MOVE) {
-
-/*         if (isSwiping || ev.getPointerCount() > 1) {
+            
+            /*if (isSwiping || ev.getPointerCount() > 1) {
                 return false;
             }*/
 
-            if (androidDragImmediately) {
+            float delX = ev.getX() - dragStartLocation.x;
+            float delY = ev.getY() - dragStartLocation.y;
+
+            if (androidDragImmediately && Math.abs(delX) > 5) {
                 startDrag(ev);
                 return true;
-            } else {
-                float delX = ev.getX() - dragStartLocation.x;
-                float delY = ev.getY() - dragStartLocation.y;
+            } else {                
                 boolean isHSwipe = Math.abs(delX) > mTouchSlop;
                 boolean isVSwipe = Math.abs(delY) > mTouchSlop;
 
