@@ -1,4 +1,4 @@
-declare module "react-native-interactable" {
+declare module "@imretrudics/react-native-interactable" {
   import { Animated, ViewProperties, ViewStyle } from "react-native";
 
   namespace Interactable {
